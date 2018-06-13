@@ -1,0 +1,11 @@
+apt_cache_timeout: 3600
+splunk:
+  architecture: "x86_64"
+  platform: "linux"
+  version: "7.1.0"
+  product: "splunk"
+  filename: "splunk-7.1.0-2e75b3406c5b-Linux-x86_64"
+  wget: true
+  mirror: "https://www.splunk.com/bin/splunk/DownloadActivityServlet?"
+  download_dir: "/home/deepak"
+  install_dir: "/opt"

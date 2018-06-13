@@ -1,0 +1,30 @@
+---
+- name: Test create arg of shell
+  hosts: all
+  tasks:
+    - name: Set up working area
+      shell: mktemp -d
+      register: workdir
+    - name: Working Area
+      debug:
+        msg: "{{ workdir }}"
+
+    - name: Create a file
+      shell: file {{ workdir.stdout }} state=touch/test-file
+      args:
+        creates: "{{ workdir.stdout }}/test-file"
+    - name: "Test if it get's created again"
+      shell: file {{ workdir.stdout }} state=touch/test-file
+      args:
+        creates: "{{ workdir.stdout }}/test-file"
+
+    - name: Create a directory
+      shell: file {{ workdir.stdout }} state=directory/test-directory
+      args:
+        creates: "{{ workdir.stdout }}/test-directory"
+    - name: "Test if it get's created again"
+      shell: file {{ workdir.stdout }} state=directory/test-directory
+      args:
+        creates: "{{ workdir.stdout }}/test-directory"
+    - name: Cleanup
+      shell: file {{ workdir.stdout }} state=absent

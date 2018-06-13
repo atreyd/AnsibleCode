@@ -1,0 +1,32 @@
+- name: Check if Splunk is installed on the machine
+  register: splunk_installed
+  command: more $SPLUNK_HOME/etc/splunk.version
+
+- name: This task will be executed only when splunk is installed
+  debug:
+    var: splunk_installed
+  when: splunk_installed|success
+
+- name: This task will be executed only when splunk is not installed
+  debug:
+    var: 'splunk is not installed'
+  when: splunk_installed|failed
+
+- name: check if tar has been downloaded
+  command: test -f "{{ splunk.download_dir }}/{{ splunk.filename }}.tgz"
+  register: splunk_downloaded
+  failed_when: splunk_downloaded.rc not in [0,1]
+  changed_when: False
+  tags: splunk
+
+- name: Ensure splunk tar is downloaded
+  get_url:
+    url: "https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.1.0&product=splunk&filename=splunk-7.1.0-2e75b3406c5b-Linux-x86_64.tgz&wget=true"
+    dest: "{{splunk.download_dir}}"
+  tags: splunk
+  when: splunk_downloaded.rc == 1
+
+- name: Ensure tar is extracted
+  command: tar -zxf {{splunk.download_dir}}/{{ splunk.filename }}.tgz chdir={{ splunk.install_dir }}
+  tags: splunk
+

@@ -1,0 +1,20 @@
+- name: Check if PHP is installed
+  register: php_installed
+  command: php -v
+  ignore_errors: true
+
+- name: This task is only executed if PHP is installed
+  debug: 
+    var: php_installed
+  when: php_installed|success
+#    when: result is success  
+
+- name: This task is only executed if PHP is NOT installed
+  debug: 
+    msg: 'PHP is not installed'
+  when: php_installed|failed
+#    when: result is failed
+
+- name: Install PHP
+  apt: name=php state=latest
+  when: php_installed|failed
