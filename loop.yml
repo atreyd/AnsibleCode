@@ -1,0 +1,10 @@
+---
+- name: Test the with_items loop 
+  hosts: all
+  tasks:
+    - name: Set up working area
+      command: "echo {{ item }}"
+      with_items:
+      - one
+      - two
+      register: echo
