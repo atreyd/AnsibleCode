@@ -8,7 +8,7 @@
     register: DOWNLOADED
   - name: Unzip the downloaded file once it is downloaded
     unarchive: 
-     src: "/home/deepak/Downloads/"
-     content: "jdk-10.0.1_linux-x64_bin.tar.gz"
-     dest: "/home/deepak/Downloads/"
+     src: /home/deepak/Downloads/
+     content: jdk-10.0.1_linux-x64_bin.tar.gz
+     dest: /home/deepak/Downloads/
      when: DOWNLOADED is success
