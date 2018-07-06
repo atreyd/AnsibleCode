@@ -4,11 +4,14 @@
   become: true
   tasks: 
   - name: Download the file first
-    command: wget -P /home/deepak/Downloads "http://download.oracle.com/otn-pub/java/jdk/10.0.1+10/fb4372174a714e6b8c52526dc134031e/jdk-10.0.1_linux-x64_bin.tar.gz"
+    get_url: 
+     url: https://downloads.git-tower.com/content/cheat-sheet-bundle.zip
+     dest: /home/deepak/Downloads/
+     mode: 0775
     register: DOWNLOADED
   - name: Unzip the downloaded file once it is downloaded
     unarchive: 
-     src: /home/deepak/Downloads/
-     content: jdk-10.0.1_linux-x64_bin.tar.gz
+     src: /home/deepak/Downloads/cheat-sheet-bundle.zip
      dest: /home/deepak/Downloads/
-     when: DOWNLOADED is success
+     mode: 0775
+    when: DOWNLOADED is success
