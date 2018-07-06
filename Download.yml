@@ -10,5 +10,5 @@
     #command: tar -xzf /home/deepak/Downloads/jdk-10.0.1_linux-x64_bin.tar.gz
     unarchive: 
     src: /home/deepak/Downloads/jdk-10.0.1_linux-x64_bin.tar.gz
-    dest: /home/deepak/Downloads
+    dest: /home/deepak/
     when: DOWNLOADED is success
