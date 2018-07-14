@@ -1,0 +1,6 @@
+#Instance creation
+---
+-hosts: all
+roles:
+   -ec2
+tags: ec2_create
