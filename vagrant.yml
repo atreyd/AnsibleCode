@@ -1,0 +1,26 @@
+---
+- name: Install vagrant on local machine
+  hosts: all
+  become: true
+  tasks: 
+  - name: check if vagrant is installed
+    register: vagrant_installed
+    command: vagrant --version
+    ignore_errors: true
+
+  - name: Execute only when Vagrant is installed
+    #debug:
+    #var: vagrant_installed
+    when: vagrant_installed|success      
+    debug: 
+      msg: 'Vagrant is installed'
+    #when: vagrant_installed|success
+  
+  - name: Execute only when Vagrant is not installed
+    when: vagrant_installed|failure
+    debug:
+      msg: 'vagrant is not installed'
+  
+  - name: Install Vagrant
+    apt: name=vagrant state=latest
+    when: vagrant_installed|failure

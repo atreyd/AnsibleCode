@@ -1,0 +1,29 @@
+---
+- name: Install vagrant on local machine
+  hosts: all
+  become: true
+  tasks:
+  - name: check if vagrant is installed
+    command: vagrant --version
+    ignore_errors: true
+    register: vagrant_installed
+
+  - name: Execute only when Vagrant is installed
+    when: vagrant_installed| {{item}}
+    with_items:
+     - 'success'
+     - 'failure'
+    debug:
+      msg: "{{item}}"
+    
+  - name: Install Vagrant
+    apt: name=vagrant state=latest
+    when: vagrant_installed is failure
+
+  - name: Show the vagrant version
+    #command: vagrant --version
+    register: vagrant_installed
+    debug:
+      msg: "{{vagrant_installed.stdout}}"
+    when: vagrant_installed.stdout.find("Vagrant") = True
+

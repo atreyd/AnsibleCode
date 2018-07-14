@@ -1,0 +1,21 @@
+---
+- name: Print environment variables of this machine
+  hosts: all
+  become: true
+  tasks:
+          - name: Run a command using shell
+            command: cat /etc/motod
+            register: mymotod
+               debug:
+                    msg: "{{ mymotod }}"
+          - name: Find the available disk space
+            command: df -hPT
+  # vars:
+          #local_shell:  "{{ lookup('env','SHELL') }}"
+    #tasks:
+          # - name: Lookup for the envrionment variables   
+    #    debug:
+    #      msg: "{{ lookup('env','USER','HOME','SHELL') }}"
+    #debug:
+    # msg: "{{ local_shell }}"
+    # msg: "{{ ansible_env.HOME }}"
