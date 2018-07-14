@@ -2,5 +2,5 @@
 - hosts: all
   roles:
   - {
-     role: ec2-setup
-    }
+    role: ec2-setup
+  }
