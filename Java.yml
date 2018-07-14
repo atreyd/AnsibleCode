@@ -3,7 +3,7 @@
   hosts: all 
   become: true
   tasks: 
-  - name: Download the file first
+  - name: Download the java file first
     get_url: 
      url: https://downloads.git-tower.com/content/cheat-sheet-bundle.zip
      dest: /home/deepak/Downloads/
