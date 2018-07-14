@@ -1,5 +1,4 @@
 # EC2 instance variables
-
 ec2:
   region: ap-south-1
   credentials: deepak_ubuntu
