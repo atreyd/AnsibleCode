@@ -3,7 +3,7 @@ ec2:
   region: ap-south-1
   credentials: deepak_ubuntu
   image: ami-d783a9b8
-  sg: default
+  security_group: MyDefaultGroup
   instance_type: t2.mirco
   subnet: subnet-af1b17e2
   public_ip: yes

@@ -2,14 +2,14 @@
 ---
 - name: Create instance
   ec2:
-      region: "{{ region }}"
-      keypair: "{{ credentials }}"
-      instance_tags: "{{ tags }}"
-      image: "{{ image }}"
-      instance_type: "{{ instance_type }}"
-      instance_profile_name: "{{ role | default(' ') }}"
-      group: "{{ sg }}"
-      vpc_subnet_id: "{{ subnet }}"
-      assign_public_ip: "{{ public_ip | default('no') }}"
-      private_ip: "{{ private_ip | default('') }}"
-      wait: true
+     region: "{{ region }}"
+     keypair: "{{ credentials }}"
+     instance_tags: "{{ tags }}"
+     image: "{{ image }}"
+     instance_type: "{{ instance_type }}"
+     instance_profile_name: "{{ role | default(' ') }}"
+     group: "{{ security_group }}"
+     vpc_subnet_id: "{{ subnet }}"
+     assign_public_ip: "{{ public_ip | default('no') }}"
+     private_ip: "{{ private_ip | default('') }}"
+     wait: true
