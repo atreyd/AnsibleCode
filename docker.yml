@@ -8,8 +8,12 @@
     ignore_errors: true
 
   - name: update the Linux system
-    apt: upgrade=dist update_cache=yes
+    apt: 
+       upgrade=dist
+       update_cache=yes
     register: upgrade
+
+  - name: Show the upgrade process    
     debug:
       msg: "{{ upgrade.stdout }}"
       
@@ -19,8 +23,21 @@
       - apt-transport-https
       - ca-certificates
 
-  - name: Add the repository to the docker.list
-    command: echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+  - name: Add an apt key by id from a keyserver
+    uri:
+       url: https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e
+       return_content: yes
+    register: aptkey
+
+  - name: Add a key from a file on the Ansible server
+    apt_key:
+       data: "{{ lookup(aptkey) }}"
+       state: present
+
+  - name: Add the repository for the docker
+    apt_repository:
+          repo: deb https://packages.docker.com/1.12/apt/repo/ \ubuntu-$(lsb_release -cs) \ main
+          state: present
 
   - name: Install Docker
     apt: name=docker-engine state=latest
