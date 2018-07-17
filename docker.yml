@@ -7,18 +7,22 @@
     command: docker -v
     ignore_errors: true
 
-  - name: This task is only executed if docker is installed
-    debug: 
-      var: docker_installed
-    when: docker_installed|success
-#    when: result is success  
+  - name: update the Linux system
+    apt: name=get state=latest
 
-  - name: This task is only executed if docker is NOT installed
-    debug: 
-      msg: 'docker is not installed'
-    when: docker_installed|failed
-#    when: result is failed
+  - name: Install the certificates on the machine
+    apt: name= {{ item }} state=latest
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+
+  - name: Add the repository to the docker.list
+    command: echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
 
   - name: Install Docker
-    apt: name=docker.io state=latest
+    apt: name=docker-engine state=latest
     when: docker_installed|failed
+    
+  - name: Display the Docker version installed
+    debug:
+      msg: "{{ docker_installed.stdout }}"
