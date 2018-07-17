@@ -8,8 +8,11 @@
     ignore_errors: true
 
   - name: update the Linux system
-    apt: name=get state=latest
-
+    apt: upgrade=dist update_cache=yes
+    register: upgrade
+    debug:
+      msg: "{{ upgrade.stdout }}"
+      
   - name: Install the certificates on the machine
     apt: name= {{ item }} state=latest
     with_items:
