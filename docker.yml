@@ -8,11 +8,11 @@
     command: docker -v
     ignore_errors: true
 
-  - name: update the Linux system
-    apt: 
-       upgrade=dist
-       update_cache=yes
-    register: upgrade
+  # - name: update the Linux system
+  #   apt: 
+  #      upgrade=dist
+  #      update_cache=yes
+  #   register: upgrade
 
   - name: Show the upgrade process    
     debug:
