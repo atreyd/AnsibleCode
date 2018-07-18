@@ -1,7 +1,10 @@
 #---
 - hosts: all
   become: true
-  gather_facts: false
+  gather_facts: true 
+  vars:
+          dest: "/home/deepak/Downloads/"
+          file_name: "sks.pem"
   tasks:
   - name: Check if Docker is installed
     register: docker_installed
@@ -25,15 +28,30 @@
       - ca-certificates
 
   - name: Add an apt key by id from a keyserver
-    uri:
-       url: https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e
-       return_content: yes
-    register: aptkey
-
-  - name: Add a key from a file on the Ansible server
+    get_url:
+            url: https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e
+            dest: /home/deepak/Downloads/sks.key
+            mode: 0440
+    
+  - name: Add the apt key
     apt_key:
-       data: "{{ lookup(aptkey) }}"
-       state: present
+            id: "0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e"
+            file: /home/deepak/Downloads/sks.key
+            state: present
+
+    #    apt_key:
+    #            id: 0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e
+    #            url: https://sks-keyservers.net/pks/lookup?op=get&search=
+    #            state: present
+    #    uri:
+    #       url: https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e
+    #       return_content: yes
+    #    register: aptkey
+
+    #  - name: Add a key from a file on the Ansible server
+    #    apt_key:
+    #       data: "{{ lookup(aptkey) }}"
+    #       state: present
 
   - name: Add the repository for the docker
     apt_repository:
