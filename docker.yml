@@ -18,10 +18,10 @@
   #   debug:
   #     msg: "{{ upgrade.stdout }}"
 
-  -name: Remove the old version of docker
-   apt: name= {{ item }} state=absent
-   when: docker_installed|suceess
-   with_items:
+  - name: Remove the old version of docker
+    apt: name= {{ item }} state=absent
+    when: docker_installed is failed
+    with_items:
       - docker
       - docker-io
       - docker-ce
@@ -61,7 +61,7 @@
 
   - name: Add the repository for the docker
     apt_repository:
-          repo: deb [arch=x86_64] https://download.docker.com/linux/ubuntu/ \$(lsb_release -cs) \stable
+          repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu/dists \$(lsb_release -cs) \stable
           state: present
 
   - name: Install Docker
