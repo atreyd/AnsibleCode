@@ -14,9 +14,9 @@
   #      update_cache=yes
   #   register: upgrade
 
-  - name: Show the upgrade process    
-    debug:
-      msg: "{{ upgrade.stdout }}"
+  # - name: Show the upgrade process    
+  #   debug:
+  #     msg: "{{ upgrade.stdout }}"
       
   - name: Install the certificates on the machine
     apt: name= {{ item }} state=latest
