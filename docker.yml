@@ -17,12 +17,22 @@
   # - name: Show the upgrade process    
   #   debug:
   #     msg: "{{ upgrade.stdout }}"
+
+  -name: Remove the old version of docker
+   apt: name= {{ item }} state=absent
+   when: docker_installed|suceess
+   with_items:
+      - docker
+      - docker-io
+      - docker-ce
       
   - name: Install the certificates on the machine
     apt: name= {{ item }} state=latest
     with_items:
       - apt-transport-https
       - ca-certificates
+      - curl
+      - software-properties-common
 
   # - name: Add an apt key by id from a keyserver
   #   get_url:
@@ -30,7 +40,7 @@
   #           dest: /home/deepak/Downloads/sks.key
   #           mode: 0440
     
-  - name: Add the apt key
+  - name: Add Docker’s official GPG key
     apt_key:
             url: https://download.docker.com/linux/ubuntu/gpg
             state: present
@@ -51,11 +61,11 @@
 
   - name: Add the repository for the docker
     apt_repository:
-          repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu \$(lsb_release -cs) \stable
+          repo: deb [arch=x86_64] https://download.docker.com/linux/ubuntu/ \$(lsb_release -cs) \stable
           state: present
 
   - name: Install Docker
-    apt: name=docker-ce state=latest
+    apt: name=docker-engine state=latest
     when: docker_installed|failed
     
   - name: Display the Docker version installed
