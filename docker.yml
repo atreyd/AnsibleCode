@@ -51,7 +51,7 @@
 
   - name: Add the repository for the docker
     apt_repository:
-          repo: deb https://packages.docker.com/1.12/apt/repo/ \ubuntu-$(lsb_release -cs) \ main
+          repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu \$(lsb_release -cs) \stable
           state: present
 
   - name: Install Docker
