@@ -8,19 +8,18 @@
     command: docker -v
     ignore_errors: true
 
-  # - name: update the Linux system
-  #   apt: 
-  #      upgrade=dist
-  #      update_cache=yes
-  #   register: upgrade
+  - name: update the Linux system
+    apt: 
+       upgrade=dist
+    register: upgrade
 
-  # - name: Show the upgrade process    
-  #   debug:
-  #     msg: "{{ upgrade.stdout }}"
+  - name: Show the upgrade process    
+    debug:
+      msg: "{{ upgrade.stdout }}"
 
   - name: Remove the old version of docker
     apt: name= {{ item }} state=absent
-    when: docker_installed is failed
+    when: docker_installed is success
     with_items:
       - docker
       - docker-io
@@ -61,13 +60,13 @@
 
   - name: Add the repository for the docker
     apt_repository:
-          repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu/dists \$(lsb_release -cs) \stable
+          repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu/dists/ $(lsb_release -cs) /stable
           state: present
 
   - name: Install Docker
-    apt: name=docker-engine state=latest
-    when: docker_installed|failed
+    apt: name=docker-ce state=latest
+    when: docker_installed is failed
     
   - name: Display the Docker version installed
     debug:
-      msg: "{{ docker_installed.stdout }}"
+         msg: "{{ docker_installed }}"
