@@ -1,0 +1,6 @@
+- cron: 
+    name: "create a cron job for provisioning a Ec2 instance on demand"
+    user: "deepak"
+    minute: "30"
+    hour: "16"
+    job: "ansible-playbook -K ec2-creation.yml"
