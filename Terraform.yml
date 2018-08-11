@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+  - name: Unarchive a file that needs to be downloaded (added in 2.0)
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0775
+  - name: Check if the terraform is installed or not
+    command: terraform --version
+    register: terraform_downloaded
+  - name: Display the downlaoded version Terraform
+    debug:
+         msg: "{{ terraform_downloaded }}"
