@@ -1,0 +1,16 @@
+---
+- hosts: tomcatServer
+  vars:
+  - warName: spring-petclinic-2.0.0.BUILD-SNAPSHOT.war
+  - warRemotePath: /mnt/artefact
+  - warLocalPath: /mnt/artefact
+
+  tasks:
+  - name: Copy the war file to the Instance in Private subnet
+    copy:
+        src: {{ warLocalPath }}/{{ warName }}
+        dest: {{ warRemotePath }}/{{ warName }}
+        mode: 0644
+
+  - name: Execute the shell script to deploy war file
+    script: JARDeploy/ExceJar.sh
