@@ -1,6 +1,5 @@
 ---
 - hosts: all
-  become: true
   vars:
   - warName: spring-petclinic-2.0.0.BUILD-SNAPSHOT.war
   - warRemotePath: /mnt/artefact
@@ -14,4 +13,4 @@
         mode: 0644
 
   - name: Execute the shell script to deploy war file
-    script: /home/deepak/Ansible_examples/MyAnsible/JARDeploy/files/ExecJar.sh 
+    script: JARDeploy/ExceJar.sh

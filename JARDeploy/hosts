@@ -1,2 +1,2 @@
-[tomcatServer]
-127.0.0.1
+[tomcatServers]
+tomcatServer=127.0.0.1
